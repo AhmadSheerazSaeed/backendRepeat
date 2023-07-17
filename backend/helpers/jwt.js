@@ -12,5 +12,5 @@ export function generateJwt(user) {
 }
 
 export function verifyJwt(token) {
-  return jsonwebtoken.verify(token, "process.env.JWT_SECRET_KEY");
+  return jsonwebtoken.verify(token, process.env.JWT_SECRET_KEY);
 }
