@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import userRouter from "./routers/userRouter.js";
@@ -6,7 +7,8 @@ import mongoose from "mongoose";
 
 const app = express();
 dotenv.config();
-app.use(express.json());
+app.use(cookieParser()); // read cookies
+app.use(express.json()); // read JSON
 app.use(
   cors({
     origin: true,

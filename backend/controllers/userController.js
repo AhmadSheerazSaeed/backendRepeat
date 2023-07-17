@@ -9,6 +9,7 @@ import { generateJwt } from "../helpers/jwt.js";
  * @returns
  */
 export const allUsers = async (req, res) => {
+  console.log(req.userId); // the auth middleware adds this property, which you may want use
   try {
     const allUsers = await userModel.find();
     return res.status(200).json(allUsers);

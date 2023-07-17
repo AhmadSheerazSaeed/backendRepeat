@@ -6,10 +6,11 @@ export function generateJwt(user) {
       sub: user._id,
       name: user.name,
     },
-    process.env.JWT_SECRET_KEY
+    process.env.JWT_SECRET_KEY,
+    { expiresIn: "1h" }
   );
 }
 
 export function verifyJwt(token) {
-  return jsonwebtoken.verify(token, process.env.JWT_SECRET_KEY);
+  return jsonwebtoken.verify(token, "process.env.JWT_SECRET_KEY");
 }
