@@ -1,5 +1,6 @@
 import userModel from "../models/User.js";
 import bcrypt from "bcrypt";
+import { generateJwt } from "../helpers/jwt.js";
 
 /**
  * all users in the collection
@@ -42,16 +43,23 @@ export const newUser = async (req, res) => {
  * @returns
  */
 export const userLogin = async (req, res) => {
-  const chkUserName = await userModel.find({ name: req.body.name });
+  const chkUserName = await userModel.findOne({ name: req.body.name }); // null or {}
 
-  if (chkUserName.length > 0) {
+  if (chkUserName) {
     const chekPassword = await bcrypt.compare(
       req.body.password,
-      chkUserName[0].password
+      chkUserName.password
     );
 
     if (chekPassword) {
-      return res.status(200).json({ message: "User Authenticated" });
+      const jwt = generateJwt(chkUserName);
+
+      return res
+        .status(200)
+        .cookie("jwtToken", jwt, {
+          httpOnly: true,
+        })
+        .json({ message: "User Authenticated" });
     } else {
       return res.status(404).json({ message: "password does not match" });
     }
